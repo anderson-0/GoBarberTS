@@ -1,2 +1,2 @@
-# GoBarberTS
+# typescript-node-boilerplate
  
