@@ -1,3 +1,8 @@
+tmp/*
+!tmp/.gitkeep
+build
+temp/
+
 # Logs
 logs
 *.log
