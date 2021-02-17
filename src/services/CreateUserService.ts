@@ -1,3 +1,4 @@
+import AppError from '@src/errors/AppError';
 import User from '@src/models/User';
 import { hash } from 'bcryptjs';
 import { getRepository } from 'typeorm';
@@ -18,7 +19,7 @@ class CreateUserService {
     });
 
     if (listOfUsersWithSameEmail.length > 0) {
-      throw Error('Email address already in use');
+      throw new AppError('Email address already in use');
     }
 
     const hashedPassword = await hash(password, 8);

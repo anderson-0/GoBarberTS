@@ -1,3 +1,4 @@
+import AppError from '@src/errors/AppError';
 import { de } from 'date-fns/locale';
 import { NextFunction, Response, Request } from 'express';
 import { verify } from 'jsonwebtoken';
@@ -17,7 +18,7 @@ export default function ensureAuthenticated(
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    throw new Error('JWT is missing in the header');
+    throw new AppError('JWT is missing in the header');
   }
 
   const [, token] = authHeader.split(' ');
@@ -31,6 +32,6 @@ export default function ensureAuthenticated(
     console.log(decoded);
     return next();
   } catch {
-    throw new Error('Invalid JWT Token');
+    throw new AppError('Invalid JWT Token');
   }
 }

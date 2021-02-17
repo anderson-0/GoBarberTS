@@ -1,3 +1,4 @@
+import AppError from '@src/errors/AppError';
 import User from '@src/models/User';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
@@ -26,13 +27,13 @@ class AuthenticateUserService {
     });
 
     if (!user) {
-      throw Error(wrongEmailPasswordMessage);
+      throw new AppError(wrongEmailPasswordMessage, 401);
     }
 
     const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
-      throw Error(wrongEmailPasswordMessage);
+      throw new AppError(wrongEmailPasswordMessage, 401);
     }
 
     const token = sign({}, authConfig.jwt.secret, {
