@@ -5,10 +5,10 @@ import { getCustomRepository } from 'typeorm';
 
 interface RequestDTO {
   date: Date;
-  provider: string;
+  provider_id: string;
 }
 class CreateAppointmentService {
-  async execute({ provider, date }: RequestDTO): Promise<Appointment> {
+  async execute({ provider_id, date }: RequestDTO): Promise<Appointment> {
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
     const appointmentDate = startOfHour(date);
 
@@ -20,7 +20,7 @@ class CreateAppointmentService {
       throw Error('Schedule already taken');
     }
     const appointment = appointmentsRepository.create({
-      provider,
+      provider_id,
       date: appointmentDate,
     });
     appointmentsRepository.save(appointment);
