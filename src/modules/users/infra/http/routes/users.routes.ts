@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import multer from 'multer';
 
 import CreateUserService from '@modules/users/services/CreateUserService';
-import UpdateUserAvatarService from 'modules/users/services/UpdateUserAvatarService';
+import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
 import uploadConfig from '@config/upload';
 import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
 
