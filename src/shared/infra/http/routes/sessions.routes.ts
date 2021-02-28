@@ -1,10 +1,10 @@
-import AppError from '@src/errors/AppError';
 import { Request, Response, Router } from 'express';
-import AuthenticateUserService from '../services/AuthenticateUserService';
+import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
+
 const sessionsRouter = Router();
 
 sessionsRouter.post('/', async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+  const { email, password } = req.body;
 
   const authenticateUserService = new AuthenticateUserService();
   const { user, token } = await authenticateUserService.execute({

@@ -1,5 +1,5 @@
-import AppError from '@src/errors/AppError';
-import User from '@src/models/User';
+import AppError from '@shared/errors/AppError';
+import User from '@modules/users/infra/typeorm/entities/User';
 import { hash } from 'bcryptjs';
 import { getRepository } from 'typeorm';
 

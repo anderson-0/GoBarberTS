@@ -3,14 +3,14 @@ import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import dotenv from 'dotenv';
 
-import './database';
+import '@shared/infra/typeorm';
+
+import bodyParser from 'body-parser';
+import uploadConfig from '@config/upload';
+import AppError from '@shared/errors/AppError';
+import routes from './routes';
 
 dotenv.config();
-
-import routes from './routes';
-import bodyParser from 'body-parser';
-import uploadConfig from './config/upload';
-import AppError from './errors/AppError';
 
 const app = express();
 
