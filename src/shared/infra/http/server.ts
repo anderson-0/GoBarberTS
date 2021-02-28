@@ -4,6 +4,7 @@ import 'express-async-errors';
 import dotenv from 'dotenv';
 
 import '@shared/infra/typeorm';
+import '@shared/container';
 
 import bodyParser from 'body-parser';
 import uploadConfig from '@config/upload';
