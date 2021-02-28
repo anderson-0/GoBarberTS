@@ -2,29 +2,28 @@ import AppError from '@shared/errors/AppError';
 import User from '@modules/users/infra/typeorm/entities/User';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import { getRepository } from 'typeorm';
 import authConfig from '@config/auth';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
-interface RequestDTO {
+interface IRequestDTO {
   email: string;
   password: string;
 }
 
-interface ResponseDTO {
+interface IResponseDTO {
   user: User;
   token: string;
 }
 
 class AuthenticateUserService {
-  public async execute({ email, password }: RequestDTO): Promise<ResponseDTO> {
-    const userRepository = getRepository(User);
+  constructor(private usersRepository: IUsersRepository) {}
 
+  public async execute({
+    email,
+    password,
+  }: IRequestDTO): Promise<IResponseDTO> {
     const wrongEmailPasswordMessage = 'Incorret Email/Password combination';
-    const user = await userRepository.findOne({
-      where: {
-        email,
-      },
-    });
+    const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
       throw new AppError(wrongEmailPasswordMessage, 401);
