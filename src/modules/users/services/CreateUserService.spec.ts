@@ -1,37 +1,52 @@
 import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import CreateUserService from './CreateUserService';
+import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 
-describe('CreateUser', () => {
-  it('should be able to create a new user', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const createUser = new CreateUserService(fakeUsersRepository);
+describe('CreateUserService', () => {
+  describe('SHOULD be able to', () => {
+    it('create a new user', async () => {
+      const fakeUsersRepository = new FakeUsersRepository();
+      const fakeHashprovider = new FakeHashProvider();
 
-    const user = await createUser.execute({
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      password: '123123',
-    });
+      const createUserService = new CreateUserService(
+        fakeUsersRepository,
+        fakeHashprovider,
+      );
 
-    expect(user).toHaveProperty('id');
-  });
-
-  it('should not be able to create a new user with email from another', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const createUser = new CreateUserService(fakeUsersRepository);
-
-    await createUser.execute({
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      password: '123123',
-    });
-
-    await expect(
-      createUser.execute({
+      const user = await createUserService.execute({
         name: 'John Doe',
         email: 'johndoe@example.com',
         password: '123123',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
+      });
+
+      expect(user).toHaveProperty('id');
+    });
+  });
+
+  describe('SHOULD NOT be able to', () => {
+    it('create a new user with email from another', async () => {
+      const fakeUsersRepository = new FakeUsersRepository();
+      const fakeHashprovider = new FakeHashProvider();
+
+      const createUserService = new CreateUserService(
+        fakeUsersRepository,
+        fakeHashprovider,
+      );
+
+      await createUserService.execute({
+        name: 'John Doe',
+        email: 'johndoe@example.com',
+        password: '123123',
+      });
+
+      await expect(
+        createUserService.execute({
+          name: 'John Doe',
+          email: 'johndoe@example.com',
+          password: '123123',
+        }),
+      ).rejects.toBeInstanceOf(AppError);
+    });
   });
 });
