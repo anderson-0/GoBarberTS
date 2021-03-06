@@ -34,11 +34,12 @@ describe('SendForgotPasswordEmailService', () => {
       });
 
       await sendForgotPasswordEmailService.execute({
-        email: 'johndoe@example.com',
+        email: user.email,
       });
 
       expect(sendMailSpy).toHaveBeenCalled();
     });
+
     it('generate a forgot password token', async () => {
       const user = await fakeUsersRepository.create({
         name: 'John Doe',
@@ -47,7 +48,7 @@ describe('SendForgotPasswordEmailService', () => {
       });
 
       await sendForgotPasswordEmailService.execute({
-        email: 'johndoe@example.com',
+        email: user.email,
       });
 
       expect(generateTokenSPy).toHaveBeenLastCalledWith(user.id);
