@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
+import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import CreateUserService from './CreateUserService';
-import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 
 describe('CreateUserService', () => {
   describe('SHOULD be able to', () => {
