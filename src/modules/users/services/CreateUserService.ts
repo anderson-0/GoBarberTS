@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
 import User from '@modules/users/infra/typeorm/entities/User';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
-import { inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
 interface IRequestDTO {
@@ -9,7 +9,7 @@ interface IRequestDTO {
   email: string;
   password: string;
 }
-
+@injectable()
 class CreateUserService {
   constructor(
     @inject('UsersRepository') private usersRepository: IUsersRepository,
