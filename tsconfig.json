@@ -12,7 +12,7 @@
       "@shared/*": ["shared/*"],
       "@config/*": ["config/*"]
     },
-    "typeRoots": ["./src/@types"],
+    "typeRoots": ["./@types", "./node_modules/@types"],
     "types": ["@types/jest"],
     "esModuleInterop": true,
     "experimentalDecorators": true,
