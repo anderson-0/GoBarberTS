@@ -1,4 +1,4 @@
-import IMailProvider from '../models/IMailProvider';
+import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 
 interface IMessage {
   to: string;
