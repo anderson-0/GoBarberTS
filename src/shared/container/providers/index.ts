@@ -6,7 +6,7 @@ import IMailProvider from './MailProvider/models/IMailProvider';
 
 container.registerSingleton('StorageProvider', DiskStorageProvider);
 container.registerSingleton('MailProvider', FakeMailProvider);
-container.registerSingleton<IMailProvider>(
+container.registerInstance<IMailProvider>(
   'MailProvider',
-  EtherealMailProvider,
+  new EtherealMailProvider(),
 );

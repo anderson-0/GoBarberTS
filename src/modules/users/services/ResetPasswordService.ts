@@ -2,8 +2,8 @@ import AppError from '@shared/errors/AppError';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import { inject, injectable } from 'tsyringe';
 import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider';
+import { addHours, isAfter } from 'date-fns';
 import IUserTokensRepository from '../repositories/IUserTokensRepository';
-import { addHours, differenceInHours, isAfter } from 'date-fns';
 
 interface IRequestDTO {
   token: string;
@@ -14,7 +14,7 @@ interface IRequestDTO {
 class ResetPasswordService {
   constructor(
     @inject('UsersRepository') private usersRepository: IUsersRepository,
-    @inject('TokenRepository')
+    @inject('UserTokensRepository')
     private userTokensRepository: IUserTokensRepository,
     @inject('HashProvider')
     private hashProvider: IHashProvider,
