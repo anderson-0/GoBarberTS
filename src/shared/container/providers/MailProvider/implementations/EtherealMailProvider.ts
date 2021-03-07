@@ -1,15 +1,22 @@
 import nodemailer, { Transporter } from 'nodemailer';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
+import { inject, injectable } from 'tsyringe';
+import ISendMailDTO from '@shared/container/providers/MailProvider/dtos/ISendMailDTO';
+import IMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider';
 
 interface IMessage {
   to: string;
   body: string;
 }
 
+@injectable()
 class EtherealMailProvider implements IMailProvider {
   private client: Transporter;
 
-  constructor() {
+  constructor(
+    @inject('MailTemplateProvider')
+    private mailTemplateProvider: IMailTemplateProvider,
+  ) {
     nodemailer.createTestAccount().then(account => {
       const transporter = nodemailer.createTransport({
         host: account.smtp.host,
@@ -24,18 +31,28 @@ class EtherealMailProvider implements IMailProvider {
     });
   }
 
-  public async sendMail(to: string, body: string): Promise<void> {
-    const message = {
-      from: 'Equipe GoBarber <equipe@gobarber.com>',
-      to,
-      subject: 'Password Recovery GoBarber',
-      text: body,
-    };
+  public async sendMail({
+    to,
+    from,
+    subject,
+    templateData,
+  }: ISendMailDTO): Promise<void> {
+    const message = await this.client.sendMail({
+      from: {
+        name: from?.name || 'Equipe GoBarber',
+        address: from?.mail || 'equipe@gobarber.com',
+      },
+      to: {
+        name: to.name,
+        address: to.mail,
+      },
+      subject,
+      html: await this.mailTemplateProvider.parse(templateData),
+    });
 
-    const messageSent = await this.client.sendMail(message);
-    console.log('Message sent: %s', messageSent.messageId);
+    console.log('Message sent: %s', message.messageId);
     // Preview only available when sending through an Ethereal account
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(messageSent));
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(message));
   }
 }
 
