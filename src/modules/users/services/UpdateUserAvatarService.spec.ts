@@ -1,8 +1,6 @@
 import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
-import CreateUserService from './CreateUserService';
-import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import UpdateUserAvatarService from './UpdateUserAvatarService';
 
 let fakeUsersRepository: FakeUsersRepository;
@@ -19,14 +17,6 @@ describe('UpdateUserAvatarService', () => {
   });
   describe('SHOULD be able to', () => {
     it('upload an avatar image file', async () => {
-      const fakeUsersRepository = new FakeUsersRepository();
-      const fakeStorageProvider = new FakeStorageProvider();
-
-      const updateUserAvatarService = new UpdateUserAvatarService(
-        fakeUsersRepository,
-        fakeStorageProvider,
-      );
-
       const user = await fakeUsersRepository.create({
         name: 'John Doe',
         email: 'johndoe@example.com',
