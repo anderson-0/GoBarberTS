@@ -4,20 +4,25 @@ import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHa
 import AuthenticateUserService from './AuthenticateUserService';
 import CreateUserService from './CreateUserService';
 
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashprovider: FakeHashProvider;
+let createUserService: CreateUserService;
+let authenticateUserService: AuthenticateUserService;
 describe('AuthenticateUserService', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashprovider = new FakeHashProvider();
+    createUserService = new CreateUserService(
+      fakeUsersRepository,
+      fakeHashprovider,
+    );
+    authenticateUserService = new AuthenticateUserService(
+      fakeUsersRepository,
+      fakeHashprovider,
+    );
+  });
   describe('SHOULD be able to', () => {
     it('authenticate', async () => {
-      const fakeUsersRepository = new FakeUsersRepository();
-      const fakeHashprovider = new FakeHashProvider();
-      const createUserService = new CreateUserService(
-        fakeUsersRepository,
-        fakeHashprovider,
-      );
-      const authenticateUserService = new AuthenticateUserService(
-        fakeUsersRepository,
-        fakeHashprovider,
-      );
-
       const user = await createUserService.execute({
         name: 'John Doe',
         email: 'johndoe@example.com',
@@ -35,17 +40,6 @@ describe('AuthenticateUserService', () => {
 
   describe('SHOULD NOT be able to', () => {
     it('authenticate with non-existing user', async () => {
-      const fakeUsersRepository = new FakeUsersRepository();
-      const fakeHashprovider = new FakeHashProvider();
-      const createUserService = new CreateUserService(
-        fakeUsersRepository,
-        fakeHashprovider,
-      );
-      const authenticateUserService = new AuthenticateUserService(
-        fakeUsersRepository,
-        fakeHashprovider,
-      );
-
       await expect(
         authenticateUserService.execute({
           email: 'johndoe@example.com',
@@ -55,17 +49,6 @@ describe('AuthenticateUserService', () => {
     });
 
     it('authenticate with incorrect user', async () => {
-      const fakeUsersRepository = new FakeUsersRepository();
-      const fakeHashprovider = new FakeHashProvider();
-      const createUserService = new CreateUserService(
-        fakeUsersRepository,
-        fakeHashprovider,
-      );
-      const authenticateUserService = new AuthenticateUserService(
-        fakeUsersRepository,
-        fakeHashprovider,
-      );
-
       const user = await createUserService.execute({
         name: 'John Doe',
         email: 'johndoe@example.com',

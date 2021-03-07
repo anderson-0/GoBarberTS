@@ -5,7 +5,18 @@ import CreateUserService from './CreateUserService';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import UpdateUserAvatarService from './UpdateUserAvatarService';
 
+let fakeUsersRepository: FakeUsersRepository;
+let fakeStorageProvider: FakeStorageProvider;
+let updateUserAvatarService: UpdateUserAvatarService;
 describe('UpdateUserAvatarService', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeStorageProvider = new FakeStorageProvider();
+    updateUserAvatarService = new UpdateUserAvatarService(
+      fakeUsersRepository,
+      fakeStorageProvider,
+    );
+  });
   describe('SHOULD be able to', () => {
     it('upload an avatar image file', async () => {
       const fakeUsersRepository = new FakeUsersRepository();
@@ -31,15 +42,7 @@ describe('UpdateUserAvatarService', () => {
     });
 
     it('delete old avatar when uploading a new one', async () => {
-      const fakeUsersRepository = new FakeUsersRepository();
-      const fakeStorageProvider = new FakeStorageProvider();
-
       const deleteFile = jest.spyOn(fakeStorageProvider, 'deleteFile');
-
-      const updateUserAvatarService = new UpdateUserAvatarService(
-        fakeUsersRepository,
-        fakeStorageProvider,
-      );
 
       const user = await fakeUsersRepository.create({
         name: 'John Doe',
@@ -64,14 +67,6 @@ describe('UpdateUserAvatarService', () => {
 
   describe('SHOULD NOT be able to', () => {
     it('upload an avatar image file to a non-existing user', async () => {
-      const fakeUsersRepository = new FakeUsersRepository();
-      const fakeStorageProvider = new FakeStorageProvider();
-
-      const updateUserAvatarService = new UpdateUserAvatarService(
-        fakeUsersRepository,
-        fakeStorageProvider,
-      );
-
       await expect(
         updateUserAvatarService.execute({
           user_id: '21212121',
