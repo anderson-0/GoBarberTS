@@ -1,7 +1,9 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Raw, Repository } from 'typeorm';
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
+import IFindAllAppointmentsFromProviderInMonthDTO from '@modules/appointments/dtos/IFindAllAppointmentsFromProviderInMonthDTO';
+import IFindAllAppointmentsFromProviderInDayDTO from '@modules/appointments/dtos/IFindAllAppointmentsFromProviderInDayDTO';
 
 class AppointmentsRepository implements IAppointmentsRepository {
   private ormRepository: Repository<Appointment>;
@@ -18,6 +20,48 @@ class AppointmentsRepository implements IAppointmentsRepository {
     await this.ormRepository.save(appointment);
 
     return appointment;
+  }
+
+  public async findAllFromProviderInMonth({
+    provider_id,
+    month,
+    year,
+  }: IFindAllAppointmentsFromProviderInMonthDTO): Promise<Appointment[]> {
+    const parsedMonth = String(month).padStart(2, '0');
+
+    const findAppointment = this.ormRepository.find({
+      where: {
+        provider_id,
+        date: Raw(
+          dateFieldName =>
+            `to_char(${dateFieldName},'MM-YYYY') = ${parsedMonth}-${year}`,
+        ),
+      },
+    });
+
+    return findAppointment;
+  }
+
+  public async findAllFromProviderInDay({
+    provider_id,
+    day,
+    month,
+    year,
+  }: IFindAllAppointmentsFromProviderInDayDTO): Promise<Appointment[]> {
+    const parsedDay = String(day).padStart(2, '0');
+    const parsedMonth = String(month).padStart(2, '0');
+
+    const findAppointment = this.ormRepository.find({
+      where: {
+        provider_id,
+        date: Raw(
+          dateFieldName =>
+            `to_char(${dateFieldName},'DD-MM-YYYY') = ${parsedDay}-${parsedMonth}-${year}`,
+        ),
+      },
+    });
+
+    return findAppointment;
   }
 
   public async findByDate(date: Date): Promise<Appointment | undefined> {
