@@ -22,8 +22,8 @@ class CreateAppointmentService {
     date,
   }: IRequestDTO): Promise<Appointment> {
     const appointmentDate = startOfHour(date);
-
-    if (isBefore(appointmentDate, Date.now())) {
+    const appointmentHour = getHours(appointmentDate);
+    if (isBefore(appointmentDate.getTime(), Date.now())) {
       throw new AppError("You can't create an appointment in a past date");
     }
 
@@ -31,7 +31,7 @@ class CreateAppointmentService {
       throw new AppError("You can't create an appointment with yourself");
     }
 
-    if (getHours(appointmentDate) < 8 || getHours(appointmentDate) > 17) {
+    if (appointmentHour < 8 || appointmentHour > 17) {
       throw new AppError(
         'You can only create appointments between 8am and 5pm',
       );
