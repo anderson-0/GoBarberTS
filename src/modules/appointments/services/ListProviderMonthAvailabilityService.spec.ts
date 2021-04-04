@@ -3,45 +3,96 @@ import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes
 import ListProviderMonthAvailabilityService from './ListProviderMonthAvailabilityService';
 
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
-let listProviderMonthAvailabilityService: ListProviderMonthAvailabilityService;
+let listProviderMonthAvailability: ListProviderMonthAvailabilityService;
 
-describe('ListProviderMonthAvailabilityService', () => {
+describe('ListProviderMonthAvailability', () => {
   beforeEach(() => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
-    listProviderMonthAvailabilityService = new ListProviderMonthAvailabilityService(
+    listProviderMonthAvailability = new ListProviderMonthAvailabilityService(
       fakeAppointmentsRepository,
     );
   });
-  describe('SHOULD be able to', () => {
-    it("list the provider's availability for any given month", async () => {
-      const listOfScheduleHours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
 
-      listOfScheduleHours.forEach(hour => {
-        fakeAppointmentsRepository.create({
-          provider_id: 'user_id',
-          date: new Date(2020, 4, 20, hour, 0, 0),
-        });
-      });
-
-      await Promise.all(listOfScheduleHours);
-
-      await fakeAppointmentsRepository.create({
-        provider_id: 'user_id',
-        date: new Date(2020, 4, 21, 8, 0, 0),
-      });
-
-      const availability = await listProviderMonthAvailabilityService.execute({
-        provider_id: 'user_id',
-        month: 5,
-        year: 2020,
-      });
-
-      expect(availability).toEqual(
-        expect.arrayContaining([
-          { day: 20, available: false },
-          { day: 21, available: true },
-        ]),
-      );
+  it('should be able to list the month availability from provider', async () => {
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider_id',
+      customer_id: 'customer_id',
+      date: new Date(2021, 4, 20, 8, 0, 0),
     });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider_id',
+      customer_id: 'customer_id',
+      date: new Date(2021, 4, 20, 9, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider_id',
+      customer_id: 'customer_id',
+      date: new Date(2021, 4, 20, 10, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider_id',
+      customer_id: 'customer_id',
+      date: new Date(2021, 4, 20, 11, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider_id',
+      customer_id: 'customer_id',
+      date: new Date(2021, 4, 20, 12, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider_id',
+      customer_id: 'customer_id',
+      date: new Date(2021, 4, 20, 13, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider_id',
+      customer_id: 'customer_id',
+      date: new Date(2021, 4, 20, 14, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider_id',
+      customer_id: 'customer_id',
+      date: new Date(2021, 4, 20, 15, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider_id',
+      customer_id: 'customer_id',
+      date: new Date(2021, 4, 20, 16, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider_id',
+      customer_id: 'customer_id',
+      date: new Date(2021, 4, 20, 17, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider_id',
+      customer_id: 'customer_id',
+      date: new Date(2021, 4, 21, 8, 0, 0),
+    });
+
+    const availability = await listProviderMonthAvailability.execute({
+      provider_id: 'provider_id',
+      year: 2021,
+      month: 5,
+    });
+
+    expect(availability).toEqual(
+      expect.arrayContaining([
+        { day: 19, available: true },
+        { day: 20, available: false },
+        { day: 21, available: true },
+        { day: 22, available: true },
+      ]),
+    );
   });
 });

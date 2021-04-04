@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository';
 import ListProviderDayAvailabilityService from './ListProviderDayAvailabilityService';
+
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
 let listProviderDayAvailability: ListProviderDayAvailabilityService;
 
@@ -13,17 +14,15 @@ describe('ListProviderDayAvailability', () => {
   });
 
   it('should be able to list the day availability from provider', async () => {
-    /**
-     * Sets current time to 11:00 and schedules appointments at 14:00 and 15:00. All schedules equal or before
-     * 11:00 should not be available + 14:00 and 15:00 should not be available
-     */
     await fakeAppointmentsRepository.create({
-      provider_id: 'user',
+      provider_id: 'provider_id',
+      customer_id: 'customer_id',
       date: new Date(2021, 4, 20, 14, 0, 0),
     });
 
     await fakeAppointmentsRepository.create({
-      provider_id: 'user',
+      provider_id: 'provider_id',
+      customer_id: 'customer_id',
       date: new Date(2021, 4, 20, 15, 0, 0),
     });
 
