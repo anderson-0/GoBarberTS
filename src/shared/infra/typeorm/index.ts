@@ -1,4 +1,3 @@
-import { createConnections } from 'typeorm';
+import { createConnection } from 'typeorm';
 
-// Creates connection with Postgres and MongoDB
-createConnections();
+createConnection();
