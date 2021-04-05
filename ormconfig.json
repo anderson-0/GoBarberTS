@@ -16,7 +16,7 @@
   {
     "name": "mongodb",
     "type": "mongodb",
-    "host": "cluster0.pdae3.mongodb.net/gobarber",
+    "url": "mongodb+srv://admin:tk9ug6CmO6A2MHSr@cluster0.pdae3.mongodb.net/gobarber",
     "useUnifiedTopology": true,
     "useNewUrlParser": true,
     "entities": ["./src/modules/**/infra/typeorm/schemas/*.ts"]
