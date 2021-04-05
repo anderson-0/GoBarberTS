@@ -2,11 +2,10 @@ import 'reflect-metadata';
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import dotenv from 'dotenv';
-
+import { errors } from 'celebrate';
 import '@shared/infra/typeorm';
 import '@shared/container';
 
-import bodyParser from 'body-parser';
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import routes from './routes';
@@ -16,9 +15,11 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/files', express.static(uploadConfig.tmpFolder));
 app.use(routes);
+
+app.use(errors());
+
 app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
@@ -26,6 +27,7 @@ app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
       message: err.message,
     });
   }
+  console.log(err.message);
 
   return res.status(500).json({
     status: 'error',
