@@ -36,7 +36,7 @@ class SendForgotPasswordEmailService {
         template: 'Ola, {{name}}: {{token}}',
         variables: {
           name: user.name,
-          token,
+          link: `${process.env.APP_WEB_URL}:${process.env.PORT}/reset_password?token=${token}`,
         },
       },
     });

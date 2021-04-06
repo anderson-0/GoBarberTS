@@ -16,6 +16,7 @@
     "types": ["@types/jest"],
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "allowJs": true
   }
 }

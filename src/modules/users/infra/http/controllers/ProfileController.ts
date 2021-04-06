@@ -2,6 +2,7 @@ import ShowUserProfileService from '@modules/users/services/ShowUserProfileServi
 import UpdateUserProfileService from '@modules/users/services/UpdateUserProfileService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 export default class ProfileController {
   public async show(req: Request, res: Response): Promise<Response> {
@@ -27,8 +28,6 @@ export default class ProfileController {
       old_password,
     });
 
-    delete updatedUser.password;
-
-    return res.status(204).json(updatedUser);
+    return res.status(204).json(classToClass(updatedUser));
   }
 }
