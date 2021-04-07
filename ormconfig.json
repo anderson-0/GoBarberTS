@@ -2,7 +2,7 @@
   {
     "name": "default",
     "type": "postgres",
-    "host": "database.ctopr8ko7wx5.us-east-1.rds.amazonaws.com",
+    "host": "rocketseat-gobarber.c1wjttzg7epl.us-east-1.rds.amazonaws.com",
     "port": 5432,
     "username": "postgres",
     "password": "postgres",

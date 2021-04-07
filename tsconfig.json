@@ -13,7 +13,7 @@
       "@config/*": ["config/*"]
     },
     "typeRoots": ["./@types", "./node_modules/@types"],
-    "types": ["@types/jest"],
+    "types": ["@types/jest", "node"],
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
