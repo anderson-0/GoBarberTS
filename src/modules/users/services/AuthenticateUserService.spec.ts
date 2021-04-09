@@ -1,28 +1,33 @@
 import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import AuthenticateUserService from './AuthenticateUserService';
 import CreateUserService from './CreateUserService';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashprovider: FakeHashProvider;
+let fakeCacheProvider: FakeCacheProvider;
 let createUserService: CreateUserService;
 let authenticateUserService: AuthenticateUserService;
 describe('AuthenticateUserService', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashprovider = new FakeHashProvider();
+    fakeCacheProvider = new FakeCacheProvider();
+
     createUserService = new CreateUserService(
       fakeUsersRepository,
       fakeHashprovider,
+      fakeCacheProvider,
     );
     authenticateUserService = new AuthenticateUserService(
       fakeUsersRepository,
       fakeHashprovider,
     );
   });
-  describe('SHOULD be able to', () => {
-    it('authenticate', async () => {
+  describe('SHOULD BE ABLE TO', () => {
+    it('Authenticate', async () => {
       const user = await createUserService.execute({
         name: 'John Doe',
         email: 'johndoe@example.com',
@@ -38,8 +43,8 @@ describe('AuthenticateUserService', () => {
     });
   });
 
-  describe('SHOULD NOT be able to', () => {
-    it('authenticate with non-existing user', async () => {
+  describe('SHOULD NOT BE ABLE TO', () => {
+    it('Authenticate with non-existing user', async () => {
       await expect(
         authenticateUserService.execute({
           email: 'johndoe@example.com',
@@ -48,7 +53,7 @@ describe('AuthenticateUserService', () => {
       ).rejects.toBeInstanceOf(AppError);
     });
 
-    it('authenticate with incorrect user', async () => {
+    it('Authenticate with incorrect user', async () => {
       const user = await createUserService.execute({
         name: 'John Doe',
         email: 'johndoe@example.com',

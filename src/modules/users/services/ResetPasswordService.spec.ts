@@ -20,8 +20,8 @@ describe('ResetPasswordService', () => {
       fakeHashProvider,
     );
   });
-  describe('SHOULD be able to', () => {
-    it('reset the password for a valid token', async () => {
+  describe('SHOULD BE ABLE TO', () => {
+    it('Reset the password for a valid token', async () => {
       const user = await fakeUsersRepository.create({
         name: 'John Doe',
         email: 'johndoe@example.com',
@@ -45,8 +45,8 @@ describe('ResetPasswordService', () => {
     });
   });
 
-  describe('SHOULD NOT be able to', () => {
-    it('reset the password for a non-existing token', async () => {
+  describe('SHOULD NOT BE ABLE TO', () => {
+    it('Reset the password for a non-existing token', async () => {
       await expect(
         resetPasswordService.execute({
           token: 'sdsadasdsa',
@@ -55,7 +55,7 @@ describe('ResetPasswordService', () => {
       ).rejects.toBeInstanceOf(AppError);
     });
 
-    it('reset the password for non-existing user', async () => {
+    it('Reset the password for non-existing user', async () => {
       const { token } = await fakeUserTokensRepository.generate(
         'non-existing-user-id',
       );
@@ -68,7 +68,7 @@ describe('ResetPasswordService', () => {
       ).rejects.toBeInstanceOf(AppError);
     });
 
-    it('reset the password after expiration time is over (2h)', async () => {
+    it('Reset the password after expiration time is over (2h)', async () => {
       const { token } = await fakeUserTokensRepository.generate(
         'non-existing-user-id',
       );

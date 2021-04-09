@@ -15,8 +15,8 @@ describe('UpdateUserAvatarService', () => {
       fakeStorageProvider,
     );
   });
-  describe('SHOULD be able to', () => {
-    it('upload an avatar image file', async () => {
+  describe('SHOULD BE ABLE TO', () => {
+    it('Upload an avatar image file', async () => {
       const user = await fakeUsersRepository.create({
         name: 'John Doe',
         email: 'johndoe@example.com',
@@ -31,7 +31,7 @@ describe('UpdateUserAvatarService', () => {
       expect(user.avatar).toBe('avatar.jpg');
     });
 
-    it('delete old avatar when uploading a new one', async () => {
+    it('Delete old avatar when uploading a new one', async () => {
       const deleteFile = jest.spyOn(fakeStorageProvider, 'deleteFile');
 
       const user = await fakeUsersRepository.create({
@@ -55,8 +55,8 @@ describe('UpdateUserAvatarService', () => {
     });
   });
 
-  describe('SHOULD NOT be able to', () => {
-    it('upload an avatar image file to a non-existing user', async () => {
+  describe('SHOULD NOT BE ABLE TO', () => {
+    it('Upload an avatar image file to a non-existing user', async () => {
       await expect(
         updateUserAvatarService.execute({
           user_id: '21212121',

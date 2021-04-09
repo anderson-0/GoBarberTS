@@ -10,8 +10,8 @@ describe('ShowUserProfileService', () => {
     fakeUsersRepository = new FakeUsersRepository();
     showUserProfileService = new ShowUserProfileService(fakeUsersRepository);
   });
-  describe('SHOULD be able to', () => {
-    it('update user profile information', async () => {
+  describe('SHOULD BE ABLE TO', () => {
+    it('Update user profile information', async () => {
       const user = await fakeUsersRepository.create({
         name: 'John Doe',
         email: 'johndoe@example.com',
@@ -27,8 +27,8 @@ describe('ShowUserProfileService', () => {
     });
   });
 
-  describe('SHOULD NOT be able to', () => {
-    it('show profile of not non-existing user', async () => {
+  describe('SHOULD NOT BE ABLE TO', () => {
+    it('Show profile of not non-existing user', async () => {
       await expect(
         showUserProfileService.execute({
           user_id: 'non-existing-user-id',

@@ -16,8 +16,8 @@ describe('UpdateUserProfileService', () => {
       fakeHashProvider,
     );
   });
-  describe('SHOULD be able to', () => {
-    it('update user profile information', async () => {
+  describe('SHOULD BE ABLE TO', () => {
+    it('Update user profile information', async () => {
       const user = await fakeUsersRepository.create({
         name: 'John Doe',
         email: 'johndoe@example.com',
@@ -33,7 +33,7 @@ describe('UpdateUserProfileService', () => {
       expect(updatedUser.name).toBe('Jane Doe');
     });
 
-    it('update the password', async () => {
+    it('Update the password', async () => {
       const user = await fakeUsersRepository.create({
         name: 'John Doe',
         email: 'johndoe@example.com',
@@ -52,8 +52,8 @@ describe('UpdateUserProfileService', () => {
     });
   });
 
-  describe('SHOULD NOT be able to', () => {
-    it('update user profile information from a non-exiting user', async () => {
+  describe('SHOULD NOT BE ABLE TO', () => {
+    it('Update user profile information from a non-exiting user', async () => {
       await expect(
         updateUserProfileService.execute({
           user_id: 'non-existing-user-id',
@@ -62,7 +62,7 @@ describe('UpdateUserProfileService', () => {
         }),
       ).rejects.toBeInstanceOf(AppError);
     });
-    it('update email to an email already in use by another use', async () => {
+    it('Update email to an email already in use by another use', async () => {
       const user1 = await fakeUsersRepository.create({
         name: 'John Doe',
         email: 'johndoe@example.com',
@@ -83,7 +83,7 @@ describe('UpdateUserProfileService', () => {
         }),
       ).rejects.toBeInstanceOf(AppError);
     });
-    it('update the password without informing the old one', async () => {
+    it('Update the password without informing the old one', async () => {
       const user = await fakeUsersRepository.create({
         name: 'Jane Doe',
         email: 'janedoe@example.com',
@@ -99,7 +99,7 @@ describe('UpdateUserProfileService', () => {
       ).rejects.toBeInstanceOf(AppError);
     });
 
-    it('update the password with wrong old password', async () => {
+    it('Update the password with wrong old password', async () => {
       const user = await fakeUsersRepository.create({
         name: 'Jane Doe',
         email: 'janedoe@example.com',
